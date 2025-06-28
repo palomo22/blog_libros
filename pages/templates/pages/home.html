@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Publicaciones{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h2 class="mb-4 text-center">📚 Publicaciones recientes</h2>
+
+    <form method="get" class="mb-4">
+      <div class="input-group">
+        <input type="text" name="q" class="form-control" placeholder="Buscar publicaciones..." value="{{ request.GET.q }}">
+        <button class="btn btn-primary" type="submit">Buscar</button>
+      </div>
+    </form>
+
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+      {% for page in pages %}
+        <div class="col">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">{{ page.title }}</h5>
+              <p class="card-text text-muted small">
+                Publicado el {{ page.created_at|date:"d M Y" }}
+              </p>
+              <p class="card-text">{{ page.content|truncatechars:150 }}</p>
+              <a href="{% url 'page_detail' page.pk %}" class="btn btn-outline-primary btn-sm">
+                Leer más
+              </a>
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <p>No hay publicaciones todavía.</p>
+      {% endfor %}
+    </div>
+
+    <!-- Paginación -->
+    {% if pages.has_other_pages %}
+      <nav aria-label="Navegación de páginas" class="mt-4">
+        <ul class="pagination justify-content-center">
+          {% if pages.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ pages.previous_page_number }}" aria-label="Anterior">Anterior</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled"><span class="page-link">Anterior</span></li>
+          {% endif %}
+
+          {% for num in pages.paginator.page_range %}
+            {% if pages.number == num %}
+              <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+            {% else %}
+              <li class="page-item">
+                <a class="page-link" href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ num }}">{{ num }}</a>
+              </li>
+            {% endif %}
+          {% endfor %}
+
+          {% if pages.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ pages.next_page_number }}" aria-label="Siguiente">Siguiente</a>
+            </li>
+          {% else %}
+            <li class="page-item disabled"><span class="page-link">Siguiente</span></li>
+          {% endif %}
+        </ul>
+      </nav>
+    {% endif %}
+
+  </div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Acerca de mí{% endblock %}
+
+{% block content %}
+    <h1>Acerca de mí</h1>
+    <p>Soy Jorge, estudiante de programación y amante de los libros en inglés.</p>
+    <p>Este blog fue creado como parte de un proyecto final para aplicar lo aprendido en el curso de Python y Django.</p>
+    <p>Mi objetivo es compartir recomendaciones de lectura, fomentar el aprendizaje del idioma y disfrutar la literatura.</p>
+    <p><a href="{% url 'home' %}">← Volver al inicio</a></p>
+{% endblock %}

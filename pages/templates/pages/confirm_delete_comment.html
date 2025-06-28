@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Eliminar comentario{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card p-4 shadow-sm">
+      <h2 class="mb-4">¿Estás seguro que querés eliminar este comentario?</h2>
+
+      <p class="mb-3"><strong>Comentario:</strong> {{ comment.content }}</p>
+      <p class="text-muted small">Publicado el {{ comment.created_at|date:"d/m/Y H:i" }}</p>
+
+      <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+        <a href="{% url 'page_detail' comment.page.pk %}" class="btn btn-secondary ms-2">Cancelar</a>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

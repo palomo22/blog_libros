@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block title %}Editar comentario{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h2 class="mb-4">Editar comentario</h2>
+    <form method="post" class="card p-4 shadow-sm border-0">
+      {% csrf_token %}
+      <div class="mb-3">
+        {{ form.content.label_tag }}
+        {{ form.content|add_class:"form-control" }}
+        {{ form.content.errors }}
+      </div>
+      <button type="submit" class="btn btn-primary">Guardar cambios</button>
+      <a href="{% url 'page_detail' comment.page.pk %}" class="btn btn-secondary ms-2">Cancelar</a>
+    </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block title %}Editar perfil{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <h2 class="mb-4 text-center">Editar perfil</h2>
+    <form method="post" enctype="multipart/form-data" class="card p-4 shadow-sm border-0">
+      {% csrf_token %}
+
+      <h5>Información de usuario</h5>
+      {% for field in user_form %}
+        <div class="mb-3">
+          <label class="form-label">{{ field.label }}</label>
+          {{ field|add_class:"form-control" }}
+          {% if field.errors %}
+            <div class="text-danger">{{ field.errors }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+
+      <h5 class="mt-4">Perfil</h5>
+      {% for field in profile_form %}
+        <div class="mb-3">
+          <label class="form-label">{{ field.label }}</label>
+          {% if field.name == "avatar" %}
+            {{ field }}
+          {% else %}
+            {{ field|add_class:"form-control" }}
+          {% endif %}
+          {% if field.errors %}
+            <div class="text-danger">{{ field.errors }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+
+      <div class="d-grid mt-3">
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
